@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admissions | Sri Vivekanandha Vidhyalaya</title>
+    <link rel="icon" href="assets/logo.png" />
+    <link rel="stylesheet" href="styles.css?v=refine-engagement-1" />
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html" aria-label="Sri Vivekanandha Vidhyalaya home">
+        <span class="logo-frame small"><img src="assets/logo.png" data-required-asset alt="School logo" /><span class="asset-fallback">SVV</span></span>
+        <span class="brand-copy"><strong>Sri Vivekanandha Vidhyalaya</strong><small>Group of Schools, Kaveripakkam</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button>
+      <nav class="primary-nav" aria-label="Primary navigation" data-nav></nav>
+    </header>
+    <main>
+      <section class="page-section admissions">
+        <div class="section-heading">
+          <p class="eyebrow">Admissions</p>
+          <h1>Process, fee structure, and eligibility in one clear flow.</h1>
+        </div>
+        <div class="admission-layout">
+          <div class="steps" id="admission-steps"></div>
+          <form class="enquiry-form" data-enquiry-form>
+            <h2>Admission Enquiry</h2>
+            <label>Parent name<input name="parent" type="text" autocomplete="name" required /></label>
+            <label>Student name<input name="student" type="text" autocomplete="off" required /></label>
+            <label>Phone number<input name="phone" type="tel" autocomplete="tel" required /></label>
+            <label>Email ID<input name="email" type="email" autocomplete="email" required /></label>
+            <label>
+              Class seeking admission
+              <select name="class" required>
+                <option value="">Select class</option>
+                <option>Pre-KG</option>
+                <option>LKG</option>
+                <option>UKG</option>
+                <option>Class I - V</option>
+                <option>Class VI - X</option>
+                <option>Class XI - XII</option>
+              </select>
+            </label>
+            <button class="button primary" type="submit">Send Enquiry</button>
+            <p class="form-status" data-form-status aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><p>Sri Vivekanandha Vidhyalaya Group of Schools, Kaveripakkam</p><a href="index.html">Home</a><p class="copyright-line">© 2026 Sri Vivekanandha Vidyalaya. All rights reserved.</p></footer>
+    <script src="app.js?v=refine-engagement-1"></script>
+  </body>
+</html>
