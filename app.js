@@ -17,6 +17,37 @@ const defaultQuickFacts = [
 ];
 
 const quickFacts = defaultQuickFacts.map((fact) => ({ ...fact }));
+const admissionPhone = "+919443124350";
+const whatsappLink =
+  "https://wa.me/919443124350?text=Admission%20enquiry%20for%20Sri%20Vivekanandha%20Vidhyalaya";
+const latestNewsItems = Array.isArray(window.svvNewsItems) ? window.svvNewsItems : [];
+
+const homeFeatures = [
+  {
+    title: "SSLC achievements",
+    copy: "Class 10 SSLC toppers and verified result highlights are maintained on the achievements page.",
+    href: "achievements.html",
+    label: "View Toppers"
+  },
+  {
+    title: "School events",
+    copy: "Annual day, recognition moments, school programs, and approved event photographs are grouped in the gallery.",
+    href: "gallery.html",
+    label: "Open Gallery"
+  },
+  {
+    title: "Sports activities",
+    copy: "Sports day, march-past, team activities, and field practice updates can be added as school-approved content.",
+    href: "gallery.html",
+    label: "See Events"
+  },
+  {
+    title: "Co-curricular activities",
+    copy: "Stage programs, cultural performances, student projects, and assemblies support learning beyond academics.",
+    href: "about.html",
+    label: "Learn More"
+  }
+];
 
 const defaultAboutTabs = {
   vision: {
@@ -156,25 +187,25 @@ const testimonials = [
 ];
 
 const defaultGalleryImages = [
-  { src: "assets/school-building.jpg", title: "Matric campus building", category: "Campus" },
-  { src: "assets/gallery/second-campus-purple.jpeg", title: "Main campus building", category: "Campus" },
-  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.28.jpeg", title: "WhatsApp Image 2026-06-06 at 14.51.28.jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.30.jpeg", title: "WhatsApp Image 2026-06-06 at 14.51.30.jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.56 (1).jpeg", title: "WhatsApp Image 2026-06-07 at 09.26.56 (1).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.56 (2).jpeg", title: "WhatsApp Image 2026-06-07 at 09.26.56 (2).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.57 (1).jpeg", title: "WhatsApp Image 2026-06-07 at 09.26.57 (1).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.28 (2).jpeg", title: "WhatsApp Image 2026-06-06 at 14.51.28 (2).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.29 (2).jpeg", title: "WhatsApp Image 2026-06-06 at 14.51.29 (2).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.29.jpeg", title: "WhatsApp Image 2026-06-06 at 14.51.29.jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.29 (1).jpeg", title: "WhatsApp Image 2026-06-06 at 14.51.29 (1).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.57.jpeg", title: "WhatsApp Image 2026-06-07 at 09.26.57.jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.58.jpeg", title: "WhatsApp Image 2026-06-07 at 09.26.58.jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.59 (2).jpeg", title: "WhatsApp Image 2026-06-07 at 09.26.59 (2).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.00 (1).jpeg", title: "WhatsApp Image 2026-06-07 at 09.27.00 (1).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.00 (2).jpeg", title: "WhatsApp Image 2026-06-07 at 09.27.00 (2).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.00 (3).jpeg", title: "WhatsApp Image 2026-06-07 at 09.27.00 (3).jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.00.jpeg", title: "WhatsApp Image 2026-06-07 at 09.27.00.jpeg", category: "Events" },
-  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.01.jpeg", title: "WhatsApp Image 2026-06-07 at 09.27.01.jpeg", category: "Events" }
+  { src: "assets/school-building.jpg", title: "Matric campus building in Kaveripakkam", category: "Campus" },
+  { src: "assets/gallery/second-campus-purple.jpeg", title: "Main campus building in Kaveripakkam", category: "Campus" },
+  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.28.jpeg", title: "Students participating in a sports team photo", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.30.jpeg", title: "Annual day stage performance by students", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.56 (1).jpeg", title: "Students marching during sports activities", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.56 (2).jpeg", title: "Students receiving sports certificates", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.57 (1).jpeg", title: "Students performing pom-pom drill on sports day", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.28 (2).jpeg", title: "Traditional dance performance on stage", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.29 (2).jpeg", title: "Students in costume for annual day program", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.29.jpeg", title: "Student dance performance at annual day", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-06 at 14.51.29 (1).jpeg", title: "Student group receiving school recognition", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.57.jpeg", title: "Sports day student formation activity", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.58.jpeg", title: "Students lined up for sports day", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.26.59 (2).jpeg", title: "Fancy dress performance by young students", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.00 (1).jpeg", title: "Cultural dance performance by students", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.00 (2).jpeg", title: "Group dance performance on school stage", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.00 (3).jpeg", title: "Mythology stage play by students", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.00.jpeg", title: "Healthy food fancy dress activity", category: "Events" },
+  { src: "assets/events/WhatsApp Image 2026-06-07 at 09.27.01.jpeg", title: "Confetti dance performance at annual day", category: "Events" }
 ];
 
 const galleryImages = defaultGalleryImages.map((item) => ({ ...item }));
@@ -202,7 +233,7 @@ const adminStorageKey = "svv-school-admin-content-v1";
 const adminDashboardKey = "svv-admin-dashboard-v1";
 const adminImageOptions = [
   { src: "assets/logo.png", label: "School logo" },
-  { src: "assets/founder.jpg", label: "Founder portrait" },
+  { src: "assets/founder-original.png", label: "Founder portrait" },
   { src: "assets/school-building.jpg", label: "Matric campus building" },
   { src: "assets/second-campus.jpg", label: "Main campus building" },
   { src: "assets/gallery/second-campus-purple.jpeg", label: "Main campus gallery building" },
@@ -243,12 +274,13 @@ const defaultAdminData = () => ({
     intro: aboutIntro,
     founderEyebrow: "Founder's Message",
     founderTitle: "Arise. Awake. Achieve.",
-    founderCopy: "This page uses the supplied founder portrait only."
+    founderCopy:
+      "Founder Mr. S. Pichandi's legacy continues through the school's journey since 1991, with a focus on discipline, service, and confident learning."
   },
   images: {
     logo: "assets/logo.png",
     homeCampus: "assets/school-building.jpg",
-    founder: "assets/founder.jpg",
+    founder: "assets/founder-original.png",
     mainCampus: "assets/school-building.jpg",
     secondCampus: "assets/second-campus.jpg"
   },
@@ -397,7 +429,7 @@ const applyAdminData = () => {
     uniqueBySrc([
       {
         src: normalizePublicSrc(data.images.homeCampus),
-        title: "Main campus",
+        title: "Matric campus",
         copy: "A disciplined State Board school in Kaveripakkam since 1991."
       },
       ...defaultHeroSlides,
@@ -486,6 +518,50 @@ const renderQuickFacts = () => {
   if (!target) return;
   target.innerHTML = quickFacts
     .map((fact) => `<article class="fact-card"><strong>${fact.value}</strong><span>${fact.label}</span></article>`)
+    .join("");
+};
+
+const renderHomeFeatures = () => {
+  const target = document.getElementById("home-feature-grid");
+  if (!target) return;
+  target.innerHTML = homeFeatures
+    .map(
+      (item) => `
+        <article class="feature-card">
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.copy)}</p>
+          <a href="${item.href}">${escapeHtml(item.label)}</a>
+        </article>
+      `
+    )
+    .join("");
+};
+
+const renderLatestNews = () => {
+  const target = document.getElementById("latest-news-grid");
+  if (!target) return;
+  const items = latestNewsItems.length ? latestNewsItems : [
+    {
+      title: "Latest news will be updated soon",
+      date: "",
+      description: "Approved announcements from Sri Vivekanandha Vidhyalaya can be added in news-data.js.",
+      image: "",
+      category: "Notice"
+    }
+  ];
+  target.innerHTML = items
+    .map(
+      (item) => `
+        <article class="news-card">
+          ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy" decoding="async" />` : ""}
+          <div>
+            <span>${escapeHtml(item.category || "Notice")}${item.date ? ` · ${escapeHtml(item.date)}` : ""}</span>
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.description || "")}</p>
+          </div>
+        </article>
+      `
+    )
     .join("");
 };
 
@@ -585,6 +661,18 @@ const renderStaticCards = () => {
     const target = document.getElementById(id);
     if (target) target.innerHTML = data.map(template).join("");
   });
+};
+
+const renderStickyContactBar = () => {
+  if (document.querySelector("[data-sticky-contact]")) return;
+  document.body.insertAdjacentHTML(
+    "beforeend",
+    `<nav class="sticky-contact-bar" data-sticky-contact aria-label="Quick admission contact">
+      <a href="tel:${admissionPhone}">Call</a>
+      <a href="${whatsappLink}" target="_blank" rel="noreferrer">WhatsApp</a>
+      <a href="admissions.html">Enquiry</a>
+    </nav>`
+  );
 };
 
 const renderAboutPanel = (key) => {
@@ -1070,6 +1158,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFooterAdminLink();
   renderAnnouncements();
   renderQuickFacts();
+  renderHomeFeatures();
+  renderLatestNews();
   initHeroBanner();
   renderResultsGlance();
   renderStaticCards();
@@ -1082,6 +1172,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initLightbox();
   initForms();
   renderAdminDashboard();
+  renderStickyContactBar();
   initNav();
   initHeader();
   optimizeImages();

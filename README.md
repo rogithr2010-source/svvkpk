@@ -6,18 +6,19 @@ Included modules:
 
 - Home
 - About Us
-- Academics
 - Facilities / Infrastructure
+- Gallery
 - Achievements & Toppers
-- Faculty / Our Teachers
+- Chairman's Corner
 - Admissions
-- Activities / Co-curricular
 - Testimonials
 - Contact
+- Admin dashboard
 
 Image policy:
 
 - No online images are used.
 - No external fonts or CDNs are used.
-- The site expects only `assets/logo.png`, `assets/founder.jpg`, and `assets/school-building.jpg`.
+- The founder portrait is the original school-supplied image at `assets/founder-original.png`.
+- Gallery, events, toppers, chairman, logo, and campus images are stored under `assets/`.
 - Contact uses a Google Maps embed for the location module.
