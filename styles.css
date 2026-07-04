@@ -685,6 +685,15 @@ h3 {
   margin: 0;
 }
 
+.founder-message-body {
+  display: grid;
+  gap: 10px;
+}
+
+.founder-message-body p {
+  margin: 0;
+}
+
 .tab-list,
 .filter-row {
   display: flex;

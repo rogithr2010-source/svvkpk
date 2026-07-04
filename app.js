@@ -246,6 +246,15 @@ const schoolAddress =
 const oldAboutIntro =
   "Sri Vivekanandha Vidhyalaya Group of Schools has served Kaveripakkam since 1991 with a disciplined State Board learning culture, structured academics, and visible communication for parents.";
 
+const isLegacyFounderCopy = (value = "") => {
+  const copy = String(value);
+  return (
+    copy.includes(["supplied", "founder", "portrait", "only"].join(" ")) ||
+    copy ===
+      "Founder Mr. S. Pichandi's legacy continues through the school's journey since 1991, with a focus on discipline, service, and confident learning."
+  );
+};
+
 const aboutIntro =
   "Sri Vivekanandha Vidhyalaya Matriculation School, Kaveripakkam, was established on 1st June 1991 by Mr. S. Pichandi, a visionary educator who believed that quality education has the power to transform lives and uplift society. What began as a humble institution with a commitment to educational excellence has grown into a trusted center of learning serving generations of students.\n\nFor over three decades, the school has been dedicated to providing a nurturing environment that promotes academic achievement, character development, and lifelong learning. We strive to empower students with knowledge, values, and skills that enable them to become confident individuals, responsible citizens, and future leaders.\n\nAt Sri Vivekanandha Vidhyalaya, education extends beyond the classroom. We encourage curiosity, critical thinking, discipline, creativity, and social responsibility, ensuring the holistic development of every child. Guided by our motto, We Learn to Serve, we instill in our students the importance of service, integrity, and compassion.\n\nToday, the school continues to uphold its founding vision by offering quality education that prepares students to excel in an ever-changing world while contributing meaningfully to society.";
 
@@ -275,7 +284,7 @@ const defaultAdminData = () => ({
     founderEyebrow: "Founder's Message",
     founderTitle: "Arise. Awake. Achieve.",
     founderCopy:
-      "Founder Mr. S. Pichandi's legacy continues through the school's journey since 1991, with a focus on discipline, service, and confident learning."
+      "Sri Vivekanandha Vidhyalaya was founded with a vision to provide quality education rooted in discipline, values and character. Since 1991, the school has continued its journey of nurturing young minds and helping students grow with confidence, knowledge and responsibility.\n\nOur founder’s vision continues to guide every step of the institution. The school remains committed to academic excellence, moral values, co-curricular development and the overall growth of every child."
   },
   images: {
     logo: "assets/logo.png",
@@ -301,6 +310,9 @@ const mergeAdminData = (saved = {}) => {
   }
   if (!mergedAbout.intro || mergedAbout.intro === oldAboutIntro) {
     mergedAbout.intro = defaults.about.intro;
+  }
+  if (!mergedAbout.founderCopy || isLegacyFounderCopy(mergedAbout.founderCopy)) {
+    mergedAbout.founderCopy = defaults.about.founderCopy;
   }
   const savedAboutTabs = saved.aboutTabs || {};
   const allowedAboutTabs = Object.fromEntries(
@@ -450,7 +462,7 @@ const applyAdminData = () => {
   setParagraphs("[data-about-intro]", data.about.intro);
   setText(".leader-copy .eyebrow", data.about.founderEyebrow);
   setText(".leader-copy h2", data.about.founderTitle);
-  setText(".leader-copy p:not(.eyebrow)", data.about.founderCopy);
+  setParagraphs("[data-founder-copy]", data.about.founderCopy);
   setImage(".leader-photo img", data.images.founder);
   setImage(".campus-stack .campus-card:nth-child(1) img", data.images.mainCampus);
   setImage(".campus-stack .campus-card:nth-child(2) img", data.images.secondCampus);
