@@ -3,13 +3,33 @@ const sessionKey = "svv-admin-session-v1";
 const contentKey = "svv-school-admin-content-v1";
 const enquiryKey = "svv-admission-enquiries-v1";
 const dashboardKey = "svv-admin-dashboard-v1";
+const announcementsVersion = 1;
+const defaultAnnouncements = [
+  {
+    title: "Reading Day",
+    date: "04 July 2026",
+    category: "School Activity",
+    description:
+      "Sri Vivekanandha Vidhyalaya celebrated Reading Day to encourage students to develop the habit of reading, improve vocabulary, concentration, knowledge and communication skills.",
+    image: "/images/announcements/reading-day-2026.png",
+    published: true
+  },
+  {
+    title: "Sports Activity Day",
+    date: "04 July 2026",
+    category: "Sports",
+    description:
+      "Sports Activity Day was conducted for Grade 6 students to encourage fitness, team spirit, confidence and active participation in sports.",
+    image: "/images/announcements/sports-activity-day-2026.png",
+    published: true
+  }
+];
 
 const sections = [
   "Pages",
   "Gallery",
   "Toppers",
   "Chairman's Corner",
-  "Testimonials",
   "Announcements",
   "Admission Enquiries"
 ];
@@ -17,8 +37,8 @@ const sections = [
 const defaultDashboard = {
   uploads: {},
   gallery: [
-    { src: "../assets/school-building.jpg", title: "Matric campus building", category: "Campus", visible: true },
-    { src: "../assets/gallery/second-campus-purple.jpeg", title: "Main campus building", category: "Campus", visible: true },
+    { src: "../assets/school-building.jpg", title: "Matric Campus Building", category: "Campus", visible: true },
+    { src: "../assets/gallery/second-campus-purple.jpeg", title: "Main Campus Building", category: "Campus", visible: true },
     { src: "../assets/events/WhatsApp Image 2026-06-06 at 14.51.28.jpeg", title: "WhatsApp Image 2026-06-06 at 14.51.28.jpeg", category: "Events", visible: true },
     { src: "../assets/events/WhatsApp Image 2026-06-06 at 14.51.30.jpeg", title: "WhatsApp Image 2026-06-06 at 14.51.30.jpeg", category: "Events", visible: true },
     { src: "../assets/events/WhatsApp Image 2026-06-07 at 09.26.56 (1).jpeg", title: "WhatsApp Image 2026-06-07 at 09.26.56 (1).jpeg", category: "Events", visible: true },
@@ -37,18 +57,13 @@ const defaultDashboard = {
     { src: "../assets/events/WhatsApp Image 2026-06-07 at 09.27.00.jpeg", title: "WhatsApp Image 2026-06-07 at 09.27.00.jpeg", category: "Events", visible: true },
     { src: "../assets/events/WhatsApp Image 2026-06-07 at 09.27.01.jpeg", title: "WhatsApp Image 2026-06-07 at 09.27.01.jpeg", category: "Events", visible: true }
   ],
-  testimonials: [
-    { quote: "Parent testimonials can be added here after approval from the school office.", by: "Parent Feedback" },
-    { quote: "Alumni notes can include name, batch, achievement, and consent.", by: "Alumni Feedback" },
-    { quote: "Short, real quotes will make this section stronger than generic claims.", by: "Content Note" }
-  ],
-  announcements: [],
+  announcementsVersion,
+  announcements: defaultAnnouncements.map((item) => ({ ...item })),
   notes: {
     pages: "",
     gallery: "",
     toppers: "",
-    chairman: "",
-    testimonials: ""
+    chairman: ""
   }
 };
 
@@ -72,14 +87,41 @@ const escapeHtml = (value = "") =>
 const getContent = () => readJson(contentKey, {});
 const getDashboard = () => {
   const saved = readJson(dashboardKey, {});
-  return {
+  const dashboard = {
     ...defaultDashboard,
     ...saved,
     notes: { ...defaultDashboard.notes, ...(saved.notes || {}) },
     uploads: { ...defaultDashboard.uploads, ...(saved.uploads || {}) },
     gallery: Array.isArray(saved.gallery) ? saved.gallery : defaultDashboard.gallery,
-    testimonials: Array.isArray(saved.testimonials) ? saved.testimonials : defaultDashboard.testimonials
+    announcements:
+      saved.announcementsVersion === announcementsVersion && Array.isArray(saved.announcements)
+        ? saved.announcements.map(normalizeAnnouncement)
+        : [
+            ...defaultAnnouncements.map((item) => ({ ...item })),
+            ...(Array.isArray(saved.announcements) ? saved.announcements.map(normalizeAnnouncement) : [])
+          ],
+    announcementsVersion
   };
+  if (saved.announcementsVersion !== announcementsVersion) writeJson(dashboardKey, dashboard);
+  return dashboard;
+};
+
+const normalizeAnnouncement = (item = {}) => ({
+  title: item.title || "School Notice",
+  date: item.date || "",
+  category: item.category || "Notice",
+  description: item.description || item.text || "",
+  image: item.image || "",
+  published: item.published !== false
+});
+
+const adminImageSrc = (src = "") => {
+  const value = String(src).trim();
+  if (!value) return "../assets/logo.png";
+  if (/^(https?:|data:|blob:)/.test(value)) return value;
+  if (value.startsWith("/")) return ".." + value;
+  if (value.startsWith("../")) return value;
+  return "../" + value;
 };
 
 const saveContentField = (path, value) => {
@@ -148,7 +190,7 @@ const panelIntro = (title, copy) => `
 
 const uploadControl = (key, label, current) => `
   <article class="image-card">
-    ${current ? `<img src="${current}" alt="${escapeHtml(label)} preview" />` : `<img src="../assets/logo.png" alt="${escapeHtml(label)} placeholder" />`}
+    ${current ? `<img src="${current}" alt="${escapeHtml(label)} preview" />` : `<img src="../assets/logo.png" alt="${escapeHtml(label)} default preview" />`}
     <label class="field">${label}<input type="file" accept="image/*" data-upload-key="${key}" /></label>
   </article>
 `;
@@ -158,10 +200,10 @@ const renderPagesPanel = () => {
   return `
     ${panelIntro("Pages", "Edit core website text used by the public pages.")}
     <div class="grid">
-      <label class="field">Home headline<input data-content-path="home.title" value="${escapeHtml(content.home?.title || "")}" placeholder="Home headline" /></label>
-      <label class="field">Home eyebrow<input data-content-path="home.eyebrow" value="${escapeHtml(content.home?.eyebrow || "")}" placeholder="Home eyebrow" /></label>
-      <label class="field">Home paragraph<textarea rows="5" data-content-path="home.lead" placeholder="Home paragraph">${escapeHtml(content.home?.lead || "")}</textarea></label>
-      <label class="field">About intro<textarea rows="5" data-content-path="about.intro" placeholder="About intro">${escapeHtml(content.about?.intro || "")}</textarea></label>
+      <label class="field">Home Headline<input data-content-path="home.title" value="${escapeHtml(content.home?.title || "")}" /></label>
+      <label class="field">Home Eyebrow<input data-content-path="home.eyebrow" value="${escapeHtml(content.home?.eyebrow || "")}" /></label>
+      <label class="field">Home Paragraph<textarea rows="5" data-content-path="home.lead">${escapeHtml(content.home?.lead || "")}</textarea></label>
+      <label class="field">About Intro<textarea rows="5" data-content-path="about.intro">${escapeHtml(content.about?.intro || "")}</textarea></label>
     </div>
   `;
 };
@@ -185,8 +227,8 @@ const renderGalleryManager = (filter = "All") => {
       ${["All", "Campus", "Events"].map((category) => `<button class="button ${category === filter ? "primary" : "secondary"}" type="button" data-gallery-filter="${category}">${category}</button>`).join("")}
     </div>
     <div class="gallery-add">
-      <label class="field">Add image<input type="file" accept="image/*" data-gallery-add-file /></label>
-      <label class="field">Title<input type="text" data-gallery-add-title placeholder="Image title" /></label>
+      <label class="field">Add Image<input type="file" accept="image/*" data-gallery-add-file /></label>
+      <label class="field">Title<input type="text" data-gallery-add-title /></label>
       <label class="field">Section
         <select data-gallery-add-category>
           <option>Campus</option>
@@ -209,7 +251,7 @@ const renderGalleryManager = (filter = "All") => {
                     <option ${item.category === "Events" ? "selected" : ""}>Events</option>
                   </select>
                 </label>
-                <label class="field">Replace image<input type="file" accept="image/*" data-gallery-replace="${item.src}" /></label>
+                <label class="field">Replace Image<input type="file" accept="image/*" data-gallery-replace="${item.src}" /></label>
                 <div class="gallery-actions">
                   <button class="button secondary" type="button" data-gallery-toggle="${item.src}">${item.visible === false ? "Show" : "Hide"}</button>
                   <button class="button secondary danger" type="button" data-gallery-delete="${item.src}">Delete</button>
@@ -225,11 +267,11 @@ const renderGalleryManager = (filter = "All") => {
 
 const renderToppersPanel = () =>
   renderImagePanel("Toppers", "Upload or replace topper photos and maintain result notes.", [
-    ["topper-1", "Topper 1 photo"],
-    ["topper-2", "Topper 2 photo"],
-    ["topper-3", "Topper 3 photo"],
-    ["topper-4", "Topper 4 photo"],
-    ["topper-5", "Topper 5 photo"]
+    ["topper-1", "Topper 1 Photo"],
+    ["topper-2", "Topper 2 Photo"],
+    ["topper-3", "Topper 3 Photo"],
+    ["topper-4", "Topper 4 Photo"],
+    ["topper-5", "Topper 5 Photo"]
   ]);
 
 const renderChairmanPanel = () => {
@@ -237,38 +279,13 @@ const renderChairmanPanel = () => {
   return `
     ${panelIntro("Chairman's Corner", "Update chairman text and recognition images.")}
     <div class="grid">
-      <label class="field">Chairman's message<textarea rows="7" data-note-key="chairman">${escapeHtml(dashboard.notes.chairman || "")}</textarea></label>
+      <label class="field">Chairman’s Message<textarea rows="7" data-note-key="chairman">${escapeHtml(dashboard.notes.chairman || "")}</textarea></label>
     </div>
     <div class="cards">
-      ${uploadControl("chairman-main", "Chairman header photo", dashboard.uploads["chairman-main"])}
-      ${uploadControl("chairman-award-1", "Recognition photo 1", dashboard.uploads["chairman-award-1"])}
-      ${uploadControl("chairman-award-2", "Recognition photo 2", dashboard.uploads["chairman-award-2"])}
-      ${uploadControl("chairman-award-3", "Recognition photo 3", dashboard.uploads["chairman-award-3"])}
-    </div>
-  `;
-};
-
-const renderTestimonialsPanel = () => {
-  const dashboard = getDashboard();
-  return `
-    ${panelIntro("Testimonials", "Edit parent and alumni testimonial notes.")}
-    <div class="testimonial-admin-list">
-      ${dashboard.testimonials
-        .map(
-          (item, index) => `
-            <article class="mini-card">
-              <label class="field">Quote<textarea rows="4" data-testimonial-index="${index}" data-testimonial-field="quote">${escapeHtml(item.quote)}</textarea></label>
-              <label class="field">Name / label<input type="text" value="${escapeHtml(item.by)}" data-testimonial-index="${index}" data-testimonial-field="by" /></label>
-              <button class="button secondary danger" type="button" data-testimonial-delete="${index}">Delete</button>
-            </article>
-          `
-        )
-        .join("") || `<article class="mini-card"><p>No testimonials added yet.</p></article>`}
-    </div>
-    <div class="testimonial-add">
-      <label class="field">New quote<textarea rows="3" data-new-testimonial-quote placeholder="Type the testimonial"></textarea></label>
-      <label class="field">Name / label<input type="text" data-new-testimonial-by placeholder="Parent or alumni name" /></label>
-      <button class="button primary" type="button" data-add-testimonial>Add Testimonial</button>
+      ${uploadControl("chairman-main", "Chairman Header Photo", dashboard.uploads["chairman-main"])}
+      ${uploadControl("chairman-award-1", "Recognition Photo 1", dashboard.uploads["chairman-award-1"])}
+      ${uploadControl("chairman-award-2", "Recognition Photo 2", dashboard.uploads["chairman-award-2"])}
+      ${uploadControl("chairman-award-3", "Recognition Photo 3", dashboard.uploads["chairman-award-3"])}
     </div>
   `;
 };
@@ -276,14 +293,33 @@ const renderTestimonialsPanel = () => {
 const renderAnnouncementsPanel = () => {
   const dashboard = getDashboard();
   return `
-    ${panelIntro("Announcements", "Post notices for later publishing.")}
-    <div class="grid">
-      <label class="field">New announcement<textarea rows="4" data-new-announcement placeholder="Type announcement here"></textarea></label>
+    ${panelIntro("Announcements", "Add, edit, delete, and publish About Us page announcements.")}
+    <div class="announcement-add">
+      <label class="field">Title<input type="text" data-announcement-new-field="title" /></label>
+      <label class="field">Date<input type="text" data-announcement-new-field="date" placeholder="04 July 2026" /></label>
+      <label class="field">Category<input type="text" data-announcement-new-field="category" /></label>
+      <label class="field">Image Path Or URL<input type="text" data-announcement-new-field="image" placeholder="/images/announcements/example.png" /></label>
+      <label class="field wide">Short Description<textarea rows="3" data-announcement-new-field="description"></textarea></label>
     </div>
     <button class="button primary" type="button" data-add-announcement>Post Announcement</button>
-    <div class="cards">
+    <div class="announcement-admin-list">
       ${dashboard.announcements
-        .map((item) => `<article class="mini-card"><strong>${escapeHtml(item.date)}</strong><p>${escapeHtml(item.text)}</p></article>`)
+        .map(
+          (item, index) => `
+            <article class="announcement-admin-card">
+              <img src="${escapeHtml(adminImageSrc(item.image))}" alt="${escapeHtml(item.title)} preview" />
+              <div class="announcement-admin-fields">
+                <label class="field">Title<input type="text" value="${escapeHtml(item.title)}" data-announcement-index="${index}" data-announcement-field="title" /></label>
+                <label class="field">Date<input type="text" value="${escapeHtml(item.date)}" data-announcement-index="${index}" data-announcement-field="date" /></label>
+                <label class="field">Category<input type="text" value="${escapeHtml(item.category)}" data-announcement-index="${index}" data-announcement-field="category" /></label>
+                <label class="field">Image Path Or URL<input type="text" value="${escapeHtml(item.image)}" data-announcement-index="${index}" data-announcement-field="image" /></label>
+                <label class="field wide">Short Description<textarea rows="3" data-announcement-index="${index}" data-announcement-field="description">${escapeHtml(item.description)}</textarea></label>
+                <label class="field inline-field"><input type="checkbox" ${item.published ? "checked" : ""} data-announcement-index="${index}" data-announcement-field="published" /> Published</label>
+                <button class="button secondary danger" type="button" data-announcement-delete="${index}">Delete</button>
+              </div>
+            </article>
+          `
+        )
         .join("") || `<article class="mini-card"><p>No announcements posted yet.</p></article>`}
     </div>
   `;
@@ -295,22 +331,23 @@ const renderEnquiriesPanel = () => {
     ${panelIntro("Admission Enquiries", "Submissions from the public admission enquiry form.")}
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Date</th><th>Parent</th><th>Student</th><th>Phone</th><th>Email</th><th>Class</th></tr></thead>
+        <thead><tr><th>Date</th><th>Student</th><th>Date of Birth</th><th>Parent / Guardian</th><th>Phone</th><th>Email</th><th>Class</th></tr></thead>
         <tbody>
           ${enquiries
             .map(
               (item) => `
                 <tr>
                   <td>${escapeHtml(new Date(item.submittedAt).toLocaleString())}</td>
-                  <td>${escapeHtml(item.parent)}</td>
                   <td>${escapeHtml(item.student || "")}</td>
+                  <td>${escapeHtml(item.dob || "")}</td>
+                  <td>${escapeHtml(item.guardian || item.parent || "")}</td>
                   <td>${escapeHtml(item.phone)}</td>
                   <td>${escapeHtml(item.email || "")}</td>
                   <td>${escapeHtml(item.className)}</td>
                 </tr>
               `
             )
-            .join("") || `<tr><td colspan="6">No enquiries yet.</td></tr>`}
+            .join("") || `<tr><td colspan="7">No enquiries yet.</td></tr>`}
         </tbody>
       </table>
     </div>
@@ -322,7 +359,6 @@ const panelFor = (active) => {
   if (active === "Gallery") return renderGalleryManager(window.currentGalleryFilter || "All");
   if (active === "Toppers") return renderToppersPanel();
   if (active === "Chairman's Corner") return renderChairmanPanel();
-  if (active === "Testimonials") return renderTestimonialsPanel();
   if (active === "Announcements") return renderAnnouncementsPanel();
   return renderEnquiriesPanel();
 };
@@ -353,15 +389,44 @@ const bindPanelEvents = (active) => {
   const addAnnouncement = document.querySelector("[data-add-announcement]");
   if (addAnnouncement) {
     addAnnouncement.addEventListener("click", () => {
-      const input = document.querySelector("[data-new-announcement]");
-      const text = input.value.trim();
-      if (!text) return;
+      const fields = [...document.querySelectorAll("[data-announcement-new-field]")].reduce((values, input) => {
+        values[input.dataset.announcementNewField] = input.value.trim();
+        return values;
+      }, {});
+      if (!fields.title && !fields.description) return;
       const dashboard = getDashboard();
-      dashboard.announcements.unshift({ text, date: new Date().toLocaleDateString() });
+      dashboard.announcements.unshift({
+        title: fields.title || "School Notice",
+        date: fields.date,
+        category: fields.category || "Notice",
+        description: fields.description,
+        image: fields.image,
+        published: true
+      });
       saveDashboard(dashboard, "Announcement saved.");
       renderDashboard("Announcements");
     });
   }
+
+  document.querySelectorAll("[data-announcement-field]").forEach((input) => {
+    input.addEventListener("change", () => {
+      const dashboard = getDashboard();
+      const item = dashboard.announcements[Number(input.dataset.announcementIndex)];
+      if (!item) return;
+      item[input.dataset.announcementField] = input.type === "checkbox" ? input.checked : input.value;
+      saveDashboard(dashboard, "Announcement updated.");
+      if (input.dataset.announcementField === "image") renderDashboard("Announcements");
+    });
+  });
+
+  document.querySelectorAll("[data-announcement-delete]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const dashboard = getDashboard();
+      dashboard.announcements.splice(Number(button.dataset.announcementDelete), 1);
+      saveDashboard(dashboard, "Announcement deleted.");
+      renderDashboard("Announcements");
+    });
+  });
 
   document.querySelectorAll("[data-gallery-filter]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -442,38 +507,6 @@ const bindPanelEvents = (active) => {
     });
   }
 
-  document.querySelectorAll("[data-testimonial-index]").forEach((input) => {
-    input.addEventListener("change", () => {
-      const dashboard = getDashboard();
-      const item = dashboard.testimonials[Number(input.dataset.testimonialIndex)];
-      if (item) item[input.dataset.testimonialField] = input.value;
-      saveDashboard(dashboard, "Testimonial saved.");
-    });
-  });
-
-  document.querySelectorAll("[data-testimonial-delete]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const dashboard = getDashboard();
-      dashboard.testimonials.splice(Number(button.dataset.testimonialDelete), 1);
-      saveDashboard(dashboard, "Testimonial deleted.");
-      renderDashboard("Testimonials");
-    });
-  });
-
-  const addTestimonial = document.querySelector("[data-add-testimonial]");
-  if (addTestimonial) {
-    addTestimonial.addEventListener("click", () => {
-      const quoteInput = document.querySelector("[data-new-testimonial-quote]");
-      const byInput = document.querySelector("[data-new-testimonial-by]");
-      const quote = quoteInput.value.trim();
-      const by = byInput.value.trim();
-      if (!quote) return;
-      const dashboard = getDashboard();
-      dashboard.testimonials.unshift({ quote, by: by || "Testimonial" });
-      saveDashboard(dashboard, "Testimonial added.");
-      renderDashboard("Testimonials");
-    });
-  }
 };
 
 const renderDashboard = (active = "Pages") => {

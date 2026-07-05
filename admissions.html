@@ -25,16 +25,20 @@
       <section class="page-section admissions">
         <div class="section-heading">
           <p class="eyebrow">Admissions</p>
-          <h1>Process, fee structure, and eligibility in one clear flow.</h1>
+          <h1>Process, Fee Structure, And Eligibility In One Clear Flow.</h1>
         </div>
         <div class="admission-layout">
           <div class="steps" id="admission-steps"></div>
-          <form class="enquiry-form" data-enquiry-form>
+          <form class="enquiry-form" data-enquiry-form novalidate>
             <h2>Admission Enquiry</h2>
-            <label>Parent name<input name="parent" type="text" autocomplete="name" required /></label>
-            <label>Student name<input name="student" type="text" autocomplete="off" required /></label>
-            <label>Phone number<input name="phone" type="tel" autocomplete="tel" required /></label>
-            <label>Email ID<input name="email" type="email" autocomplete="email" required /></label>
+            <label>Student Name*<input name="student" type="text" autocomplete="off" required /></label>
+            <label>Date of Birth<input name="dob" type="date" autocomplete="bday" /></label>
+            <label>Parent / Guardian Name<input name="guardian" type="text" autocomplete="name" required /></label>
+            <label>
+              Phone Number
+              <span class="phone-input-wrap"><span>+91</span><input name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{10}" maxlength="10" required /></span>
+            </label>
+            <label>Mail ID<input name="email" type="email" autocomplete="email" required /></label>
             <label>
               Class seeking admission
               <select name="class" required>

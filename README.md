@@ -11,7 +11,6 @@ Included modules:
 - Achievements & Toppers
 - Chairman's Corner
 - Admissions
-- Testimonials
 - Contact
 - Admin dashboard
 

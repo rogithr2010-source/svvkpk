@@ -269,6 +269,61 @@ button {
   background: var(--gold-soft);
 }
 
+.announcement-add {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--gold-soft);
+}
+
+.announcement-add .wide,
+.announcement-admin-fields .wide {
+  grid-column: 1 / -1;
+}
+
+.announcement-admin-list {
+  display: grid;
+  gap: 14px;
+}
+
+.announcement-admin-card {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.announcement-admin-card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius);
+  object-fit: cover;
+  background: var(--white);
+}
+
+.announcement-admin-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-content: start;
+}
+
+.inline-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inline-field input {
+  width: auto;
+}
+
 .gallery-admin-grid {
   display: grid;
   gap: 14px;
@@ -308,22 +363,6 @@ button {
 
 .button.danger {
   color: var(--maroon);
-}
-
-.testimonial-admin-list {
-  display: grid;
-  gap: 14px;
-}
-
-.testimonial-add {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(180px, 0.55fr) auto;
-  gap: 12px;
-  align-items: end;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--gold-soft);
 }
 
 .table-wrap {
@@ -372,7 +411,9 @@ th {
   .grid,
   .cards,
   .gallery-add,
-  .testimonial-add,
+  .announcement-add,
+  .announcement-admin-card,
+  .announcement-admin-fields,
   .gallery-admin-card,
   .gallery-admin-fields {
     grid-template-columns: 1fr;

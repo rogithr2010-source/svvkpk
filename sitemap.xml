@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Replace https://example.com/ with the final domain after deployment. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://example.com/index.html</loc></url>
-  <url><loc>https://example.com/about.html</loc></url>
-  <url><loc>https://example.com/facilities.html</loc></url>
-  <url><loc>https://example.com/gallery.html</loc></url>
-  <url><loc>https://example.com/achievements.html</loc></url>
-  <url><loc>https://example.com/faculty.html</loc></url>
-  <url><loc>https://example.com/admissions.html</loc></url>
-  <url><loc>https://example.com/testimonials.html</loc></url>
-  <url><loc>https://example.com/contact.html</loc></url>
-  <url><loc>https://example.com/admin/index.html</loc></url>
+  <url><loc>https://rogithr2010-source.github.io/svvkpk/index.html</loc></url>
+  <url><loc>https://rogithr2010-source.github.io/svvkpk/about.html</loc></url>
+  <url><loc>https://rogithr2010-source.github.io/svvkpk/facilities.html</loc></url>
+  <url><loc>https://rogithr2010-source.github.io/svvkpk/gallery.html</loc></url>
+  <url><loc>https://rogithr2010-source.github.io/svvkpk/achievements.html</loc></url>
+  <url><loc>https://rogithr2010-source.github.io/svvkpk/faculty.html</loc></url>
+  <url><loc>https://rogithr2010-source.github.io/svvkpk/admissions.html</loc></url>
+  <url><loc>https://rogithr2010-source.github.io/svvkpk/contact.html</loc></url>
 </urlset>
