@@ -50,28 +50,52 @@ const defaultAnnouncements = [
 
 const defaultHomeFeatures = [
   {
-    title: "SSLC Achievements",
-    copy: "Class 10 SSLC toppers and verified result highlights are maintained on the achievements page.",
-    href: "achievements.html",
-    label: "View Toppers"
+    title: "Admissions",
+    copy: "Enquiry, campus visit, and class guidance.",
+    href: "admissions.html",
+    label: "Admission Enquiry",
+    image: "assets/school-building.jpg",
+    imageAlt: "Sri Vivekanandha Vidhyalaya campus for admissions"
   },
   {
-    title: "School Events",
-    copy: "Annual day, recognition moments, school programs, and approved event photographs are grouped in the gallery.",
+    title: "Academics",
+    copy: "Matriculation learning with SSLC readiness.",
+    href: "about.html",
+    label: "View Academics",
+    image: "images/announcements/reading-day-2026.png",
+    imageAlt: "Reading Day announcement at Sri Vivekanandha Vidhyalaya"
+  },
+  {
+    title: "Achievements",
+    copy: "Class 10 toppers and result highlights.",
+    href: "achievements.html",
+    label: "View Toppers",
+    image: "assets/toppers/topper-1.png",
+    imageAlt: "Class 10 topper at Sri Vivekanandha Vidhyalaya"
+  },
+  {
+    title: "Activities",
+    copy: "Annual Day and cultural stage moments.",
     href: "gallery.html",
-    label: "Open Gallery"
+    label: "Open Gallery",
+    image: "assets/events/WhatsApp Image 2026-06-06 at 14.51.30.jpeg",
+    imageAlt: "Annual Day stage performance at Sri Vivekanandha Vidhyalaya"
   },
   {
     title: "Sports Activities",
-    copy: "Sports day, march-past, team activities, and field practice are part of the school activity calendar.",
+    copy: "Sports Day, fitness, and team spirit.",
     href: "gallery.html",
-    label: "See Events"
+    label: "See Sports",
+    image: "assets/events/WhatsApp Image 2026-06-07 at 09.26.58.jpeg",
+    imageAlt: "Students lined up for sports activities"
   },
   {
     title: "Co-Curricular Activities",
-    copy: "Stage programs, cultural performances, student projects, and assemblies support learning beyond academics.",
+    copy: "Reading, fancy dress, and student projects.",
     href: "about.html",
-    label: "Learn More"
+    label: "Learn More",
+    image: "assets/events/WhatsApp Image 2026-06-07 at 09.26.59 (2).jpeg",
+    imageAlt: "Fancy dress activity by young students"
   }
 ];
 const homeFeatures = defaultHomeFeatures.map((item) => ({ ...item }));
@@ -96,7 +120,7 @@ const defaultAboutTabs = {
   },
   academics: {
     title: "Academics",
-    copy: "Classes, curriculum, State Board preparation, and student support."
+    copy: "Classes, curriculum, Matriculation preparation, and student support."
   },
   activities: {
     title: "Activities",
@@ -109,7 +133,7 @@ const aboutTabs = JSON.parse(JSON.stringify(defaultAboutTabs));
 const academics = [
   { title: "Classes", copy: "KG, primary, middle, high school, and higher-secondary class information." },
   { title: "Curriculum", copy: "Subject lists, assessment pattern, homework rhythm, and term planning." },
-  { title: "State Board", copy: "Tamil Nadu State Board sections, exam preparation, and eligibility notes." },
+  { title: "Matriculation", copy: "Matriculation sections, SSLC preparation, and eligibility notes." },
   { title: "Student Support", copy: "Revision routines, parent-facing academic updates, and subject guidance." }
 ];
 
@@ -187,10 +211,24 @@ const teachers = [
 ];
 
 const admissionSteps = [
-  { title: "1. Enquiry", copy: "Parents share student details, class preference, and visit timing." },
-  { title: "2. Eligibility", copy: "Age, previous school records, and class readiness are reviewed." },
-  { title: "3. Campus Visit", copy: "Families meet the admission desk and understand routines, fees, and facilities." },
-  { title: "4. Confirmation", copy: "Documents, fee formalities, and joining instructions are completed." }
+  {
+    title: "Enquiry",
+    copy: "Share student details and preferred class.",
+    image: "assets/school-building.jpg",
+    step: "01"
+  },
+  {
+    title: "Eligibility",
+    copy: "Office verifies age, records, and class readiness.",
+    image: "assets/events/WhatsApp Image 2026-06-07 at 09.26.56 (2).jpeg",
+    step: "02"
+  },
+  {
+    title: "Campus Visit",
+    copy: "Meet the admission desk and view the campus.",
+    image: "assets/gallery/second-campus-purple.jpeg",
+    step: "03"
+  }
 ];
 
 const activities = [
@@ -259,7 +297,7 @@ const schoolAddress =
   "Sri Vivekanandha Vidhyalaya Group of Schools. Admissions Enquiry: School Mobile - 94431 24350, School Landline - 04177 290795. N&P Mail - svvschool.kpk@gmail.com. Matriculation Mail - svvmschool.kpk@gmail.com. N&P Campus - Main Campus: Uppu Mettu Street, Kaveripakkam. Matric Campus: Pattamalchavadi Road, Kaveripakkam.";
 
 const oldAboutIntro =
-  "Sri Vivekanandha Vidhyalaya Group of Schools has served Kaveripakkam since 1991 with a disciplined State Board learning culture, structured academics, and visible communication for parents.";
+  "Sri Vivekanandha Vidhyalaya Group of Schools has served Kaveripakkam since 1991 with a disciplined Matriculation learning culture, structured academics, and visible communication for parents.";
 
 const isLegacyFounderCopy = (value = "") => {
   const copy = String(value);
@@ -288,7 +326,7 @@ const defaultAdminData = () => ({
   home: {
     eyebrow: "Recognized By The Government Of Tamil Nadu",
     title: "Sri Vivekanandha Vidhyalaya Group Of Schools",
-    lead: "State Board school in Kaveripakkam, established in 1991."
+    lead: "Matriculation School in Kaveripakkam, established in 1991."
   },
   about: {
     eyebrow: "About Us",
@@ -320,8 +358,10 @@ const mergeAdminData = (saved = {}) => {
   const savedNonEventGallery = savedGallery.filter((item) => item.category !== "Events");
   const defaultEventGallery = defaults.gallery.filter((item) => item.category === "Events");
   const mergedHome = { ...defaults.home, ...(saved.home || {}) };
-  const oldHomeLeadPrefix = "State Board school in Kaveripakkam, established in 1991, with admissions";
-  if (String(mergedHome.lead || "").startsWith(oldHomeLeadPrefix)) {
+  const oldSchoolType = ["State", "Board"].join(" ");
+  const oldHomeLeadPrefix = `${oldSchoolType} school in Kaveripakkam, established in 1991, with admissions`;
+  const oldHomeLeadExact = `${oldSchoolType} school in Kaveripakkam, established in 1991.`;
+  if (String(mergedHome.lead || "").startsWith(oldHomeLeadPrefix) || mergedHome.lead === oldHomeLeadExact) {
     mergedHome.lead = defaults.home.lead;
   }
   if (mergedHome.eyebrow === "Recognized by the Government of Tamil Nadu") {
@@ -345,6 +385,10 @@ const mergeAdminData = (saved = {}) => {
     mergedAbout.founderCopy = defaults.about.founderCopy;
   }
   const savedAboutTabs = saved.aboutTabs || {};
+  const savedHomeFeatures =
+    Array.isArray(saved.homeFeatures) && saved.homeFeatures.some((item) => item && item.image)
+      ? saved.homeFeatures
+      : defaults.homeFeatures;
   const allowedAboutTabs = Object.fromEntries(
     Object.keys(defaults.aboutTabs).map((key) => [key, { ...defaults.aboutTabs[key] }])
   );
@@ -356,7 +400,7 @@ const mergeAdminData = (saved = {}) => {
     quickFacts: Array.isArray(saved.quickFacts) ? saved.quickFacts : defaults.quickFacts,
     aboutTabs: allowedAboutTabs,
     facilities: defaults.facilities,
-    homeFeatures: Array.isArray(saved.homeFeatures) ? saved.homeFeatures : defaults.homeFeatures,
+    homeFeatures: savedHomeFeatures,
     newsItems: Array.isArray(saved.newsItems)
       ? saved.newsItems.map((item) => ({
           ...item,
@@ -460,6 +504,14 @@ const publicImageSrc = (src = "") => {
   return value;
 };
 
+const getPublishedAnnouncements = (limit) => {
+  const dashboard = seedAnnouncementDefaults();
+  const announcements = Array.isArray(dashboard.announcements)
+    ? dashboard.announcements.map(normalizeAnnouncement).filter((item) => item.published)
+    : defaultAnnouncements.map((item) => ({ ...item }));
+  return typeof limit === "number" ? announcements.slice(0, limit) : announcements;
+};
+
 const uniqueBySrc = (items) =>
   items.filter((item, index, source) => item.src && source.findIndex((entry) => entry.src === item.src) === index);
 
@@ -524,7 +576,7 @@ const applyAdminData = () => {
       {
         src: normalizePublicSrc(data.images.homeCampus),
         title: "Matric Campus",
-        copy: "A disciplined State Board school in Kaveripakkam since 1991."
+        copy: "A disciplined Matriculation school in Kaveripakkam since 1991."
       },
       ...defaultHeroSlides,
       ...galleryImages.filter((item) => item.category === "Campus").slice(0, 2)
@@ -614,10 +666,7 @@ const renderSiteFooter = () => {
 const renderAnnouncements = () => {
   const target = document.querySelector("[data-announcements]");
   if (!target) return;
-  const dashboard = seedAnnouncementDefaults();
-  const announcements = Array.isArray(dashboard.announcements)
-    ? dashboard.announcements.map(normalizeAnnouncement).filter((item) => item.published)
-    : defaultAnnouncements.map((item) => ({ ...item }));
+  const announcements = getPublishedAnnouncements();
   if (!announcements.length) {
     target.hidden = true;
     target.innerHTML = "";
@@ -651,6 +700,40 @@ const renderAnnouncements = () => {
   `;
 };
 
+const renderHeroAnnouncements = () => {
+  const target = document.querySelector("[data-hero-announcements]");
+  if (!target) return;
+  const announcements = getPublishedAnnouncements(3);
+  if (!announcements.length) {
+    target.hidden = true;
+    target.innerHTML = "";
+    return;
+  }
+  target.hidden = false;
+  target.innerHTML = `
+    <div class="hero-announcements-title">Latest Announcements</div>
+    <div class="hero-announcement-list">
+      ${announcements
+        .map(
+          (item) => `
+            <article class="hero-announcement-card">
+              ${
+                item.image
+                  ? `<img src="${escapeHtml(publicImageSrc(item.image))}" alt="${escapeHtml(item.title)} poster" loading="lazy" decoding="async" />`
+                  : ""
+              }
+              <div>
+                <span>${escapeHtml(item.category)}${item.date ? ` · ${escapeHtml(item.date)}` : ""}</span>
+                <strong>${escapeHtml(item.title)}</strong>
+              </div>
+            </article>
+          `
+        )
+        .join("")}
+    </div>
+  `;
+};
+
 const renderQuickFacts = () => {
   const target = document.getElementById("quick-facts");
   if (!target) return;
@@ -664,13 +747,21 @@ const renderHomeFeatures = () => {
   if (!target) return;
   target.innerHTML = homeFeatures
     .map(
-      (item) => `
+      (item) => {
+        const image = item.image
+          ? `<img src="${escapeHtml(publicImageSrc(item.image))}" alt="${escapeHtml(item.imageAlt || item.title)}" loading="lazy" decoding="async" />`
+          : "";
+        return `
         <article class="feature-card">
-          <h3>${escapeHtml(item.title)}</h3>
-          <p>${escapeHtml(item.copy)}</p>
-          <a href="${item.href}">${escapeHtml(item.label)}</a>
+          ${image}
+          <div class="feature-card-copy">
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.copy)}</p>
+            <a href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>
+          </div>
         </article>
-      `
+      `;
+      }
     )
     .join("");
 };
@@ -790,7 +881,22 @@ const renderStaticCards = () => {
         </article>
       `
     ],
-    ["admission-steps", admissionSteps, (item) => `<article class="step-card"><h3>${item.title}</h3><p>${item.copy}</p></article>`],
+    [
+      "admission-steps",
+      admissionSteps,
+      (item) => `
+        <article class="step-card visual-step-card">
+          <div class="step-media">
+            <img src="${escapeHtml(publicImageSrc(item.image))}" alt="${escapeHtml(item.title)} admission step" loading="lazy" decoding="async" />
+            <span>${escapeHtml(item.step)}</span>
+          </div>
+          <div class="step-copy">
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.copy)}</p>
+          </div>
+        </article>
+      `
+    ],
     ["activity-grid", activities, (item) => `<article class="activity-card"><strong>${item.title}</strong><p>${item.copy}</p></article>`]
   ];
 
@@ -1336,6 +1442,7 @@ document.addEventListener("DOMContentLoaded", () => {
   applyAdminData();
   renderNav();
   renderSiteFooter();
+  renderHeroAnnouncements();
   renderAnnouncements();
   renderQuickFacts();
   renderHomeFeatures();
