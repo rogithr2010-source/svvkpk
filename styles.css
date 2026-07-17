@@ -1557,7 +1557,14 @@ h3 {
 .admissions > .section-heading .eyebrow {
   font-size: clamp(1.55rem, 3vw, 2.35rem);
   font-weight: 950;
+}
+
+.contact > .section-heading .eyebrow {
   color: var(--maroon);
+}
+
+.admissions > .section-heading .eyebrow {
+  color: var(--gold);
 }
 
 .contact-block {
