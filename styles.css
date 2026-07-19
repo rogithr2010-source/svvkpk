@@ -62,6 +62,18 @@ button {
   outline-offset: 3px;
 }
 
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -382,6 +394,46 @@ button {
 .hero-slide-controls button.active {
   width: 54px;
   background: var(--gold);
+}
+
+/* Homepage entrance uses composited properties only, keeping layout and image loading unchanged. */
+.home-page .hero-image {
+  animation: hero-image-enter 600ms ease-out both;
+}
+
+.home-page .hero-logo,
+.home-page .hero-content > .eyebrow,
+.home-page .hero-content > h1,
+.home-page .hero-content > .lead,
+.home-page .hero-actions .button,
+.home-page .hero-announcements {
+  animation: hero-copy-enter 440ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.home-page .hero-logo { animation-delay: 100ms; }
+.home-page .hero-content > .eyebrow { animation-delay: 160ms; }
+.home-page .hero-content > h1 { animation-delay: 220ms; }
+.home-page .hero-content > .lead { animation-delay: 300ms; }
+.home-page .hero-actions .button:nth-child(1) { animation-delay: 400ms; }
+.home-page .hero-actions .button:nth-child(2) { animation-delay: 480ms; }
+.home-page .hero-actions .button:nth-child(3) { animation-delay: 560ms; }
+.home-page .hero-announcements { animation-delay: 620ms; }
+
+@keyframes hero-image-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hero-copy-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-content {
@@ -1200,9 +1252,15 @@ h3 {
   padding: 16px;
 }
 
-.step-copy h3,
+.step-copy h2,
 .step-copy p {
   margin: 0;
+}
+
+.step-copy h2,
+.tab-panel-title {
+  color: var(--maroon-dark);
+  font-size: 1.22rem;
 }
 
 .topper-only-layout {
@@ -1609,6 +1667,13 @@ h3 {
   object-fit: contain;
 }
 
+.footer-svg-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  fill: currentColor;
+}
+
 .map-panel {
   display: grid;
   gap: 12px;
@@ -1653,12 +1718,17 @@ h3 {
   color: var(--white);
 }
 
-.footer-icons,
-.footer-contact {
+.footer-icons {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 12px;
+}
+
+.footer-contact {
+  display: grid;
+  align-items: start;
+  gap: 10px;
 }
 
 .footer-icon-link {
@@ -1688,6 +1758,81 @@ h3 {
 .footer-contact a {
   color: var(--gold);
   font-weight: 900;
+}
+
+.footer-contact > strong {
+  color: var(--white);
+}
+
+/* Native cross-document transitions keep the header stable and animate page content. */
+@view-transition {
+  navigation: auto;
+}
+
+main {
+  view-transition-name: page-content;
+}
+
+::view-transition-old(page-content) {
+  animation: page-slide-out 280ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+::view-transition-new(page-content) {
+  animation: page-slide-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+main.page-transition-out-forward {
+  animation: page-slide-out 280ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+main.page-transition-out-backward {
+  animation: page-slide-out-backward 280ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+main.page-transition-in-forward {
+  animation: page-slide-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+main.page-transition-in-backward {
+  animation: page-slide-in-backward 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes page-slide-out {
+  to {
+    opacity: 0.72;
+    transform: translateX(-28px);
+  }
+}
+
+@keyframes page-slide-in {
+  from {
+    opacity: 0.72;
+    transform: translateX(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes page-slide-out-backward {
+  to {
+    opacity: 0.72;
+    transform: translateX(28px);
+  }
+}
+
+@keyframes page-slide-in-backward {
+  from {
+    opacity: 0.72;
+    transform: translateX(-28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .footer-admin-link {
@@ -2467,5 +2612,10 @@ body {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  ::view-transition-old(page-content),
+  ::view-transition-new(page-content) {
+    animation: none !important;
   }
 }

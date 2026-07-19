@@ -640,22 +640,30 @@ const renderSiteFooter = () => {
       <strong>Follow Us</strong>
       <div class="footer-icons">
         <a href="${instagramUrl}" target="_blank" rel="noreferrer" aria-label="Instagram">
-          <img src="assets/icons/instagram.png" alt="Instagram logo" loading="eager" decoding="async" />
+          <svg class="footer-svg-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4H7.8Zm9.45 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />
+          </svg>
         </a>
         <a href="${youtubeUrl}" target="_blank" rel="noreferrer" aria-label="YouTube">
-          <img src="assets/icons/youtube.png" alt="YouTube logo" loading="eager" decoding="async" />
+          <svg class="footer-svg-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4L15.8 12l-6.2 3.6Z" />
+          </svg>
         </a>
       </div>
     </div>
     <div class="footer-block footer-contact">
+      <strong>Visit Us</strong>
       <a href="${mapUrl}" target="_blank" rel="noreferrer">
-        <img src="assets/icons/location-pin.svg" alt="" loading="eager" decoding="async" /> Uppu Mettu Street, Kaveripakkam
+        <svg class="footer-svg-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" /></svg>
+        Uppu Mettu Street, Kaveripakkam
       </a>
       <a href="tel:${admissionPhone}">
-        <img src="assets/icons/telephone.png" alt="" loading="eager" decoding="async" /> ${displayPhone}
+        <svg class="footer-svg-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.2 1.3.5 2.7.8 4.2.8.7 0 1.2.5 1.2 1.2v3.8c0 .7-.5 1.2-1.2 1.2C10.4 22 2 13.6 2 3.2 2 2.5 2.5 2 3.2 2H7c.7 0 1.2.5 1.2 1.2 0 1.5.3 2.9.8 4.2.1.4.1.9-.2 1.2l-2.2 2.2Z" /></svg>
+        ${displayPhone}
       </a>
       <a href="mailto:${schoolEmail}">
-        <img src="assets/icons/gmail.png" alt="" loading="eager" decoding="async" /> ${schoolEmail}
+        <svg class="footer-svg-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 4H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z" /></svg>
+        ${schoolEmail}
       </a>
     </div>
     <a class="footer-admin-link" href="admin/index.html">Admin</a>
@@ -891,7 +899,7 @@ const renderStaticCards = () => {
             <span>${escapeHtml(item.step)}</span>
           </div>
           <div class="step-copy">
-            <h3>${escapeHtml(item.title)}</h3>
+            <h2>${escapeHtml(item.title)}</h2>
             <p>${escapeHtml(item.copy)}</p>
           </div>
         </article>
@@ -925,13 +933,13 @@ const renderAboutPanel = (key) => {
   if (key === "academics" || key === "activities") {
     const items = key === "academics" ? academics : activities;
     panel.innerHTML = `
-      <h3>${escapeHtml(entry.title)}</h3>
+      <h2 class="tab-panel-title">${escapeHtml(entry.title)}</h2>
       <div class="tab-card-grid">
         ${items.map((item) => `<article><strong>${escapeHtml(item.title)}</strong><p>${escapeHtml(item.copy)}</p></article>`).join("")}
       </div>
     `;
   } else {
-  panel.innerHTML = `<h3>${escapeHtml(entry.title)}</h3>${renderParagraphs(entry.copy)}`;
+  panel.innerHTML = `<h2 class="tab-panel-title">${escapeHtml(entry.title)}</h2>${renderParagraphs(entry.copy)}`;
   }
   document.querySelectorAll("[data-about-tab]").forEach((button) => {
     button.classList.toggle("active", button.dataset.aboutTab === key);
@@ -1430,6 +1438,73 @@ const initNav = () => {
   });
 };
 
+const initPageTransitions = () => {
+  const main = document.querySelector("main");
+  if (!main || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const supportsNativeTransitions =
+    typeof CSS !== "undefined" &&
+    CSS.supports("view-transition-name: page-content") &&
+    "startViewTransition" in document;
+  if (supportsNativeTransitions) return;
+
+  const directionKey = "svv-page-transition-direction";
+  const indexKey = "svv-page-transition-index";
+  const files = navItems.map((item) => item.file);
+  const pageIndex = () => Math.max(0, files.indexOf(currentFile()));
+  const transitionClasses = [
+    "page-transition-out-forward",
+    "page-transition-out-backward",
+    "page-transition-in-forward",
+    "page-transition-in-backward"
+  ];
+
+  const animateIn = (direction) => {
+    main.classList.remove(...transitionClasses);
+    void main.offsetWidth;
+    main.classList.add(`page-transition-in-${direction}`);
+    window.setTimeout(() => main.classList.remove(`page-transition-in-${direction}`), 340);
+  };
+
+  const pendingDirection = sessionStorage.getItem(directionKey);
+  if (pendingDirection === "forward" || pendingDirection === "backward") {
+    sessionStorage.removeItem(directionKey);
+    animateIn(pendingDirection);
+  }
+  sessionStorage.setItem(indexKey, String(pageIndex()));
+
+  document.addEventListener("click", (event) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest("a[href]");
+    if (!link || link.target || link.hasAttribute("download")) return;
+
+    const url = new URL(link.href, window.location.href);
+    const isInternalPage =
+      url.origin === window.location.origin &&
+      /(?:\/|\.html)$/.test(url.pathname) &&
+      !url.pathname.includes("/admin/") &&
+      (url.pathname !== window.location.pathname || url.search !== window.location.search);
+    if (!isInternalPage) return;
+
+    event.preventDefault();
+    const targetFile = url.pathname.split("/").pop() || "index.html";
+    const targetIndex = Math.max(0, files.indexOf(targetFile));
+    const direction = targetIndex < pageIndex() ? "backward" : "forward";
+    sessionStorage.setItem(directionKey, direction);
+    sessionStorage.setItem(indexKey, String(pageIndex()));
+    main.classList.add(`page-transition-out-${direction}`);
+    window.setTimeout(() => window.location.assign(url.href), 280);
+  });
+
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    const previousIndex = Number(sessionStorage.getItem(indexKey));
+    const currentIndex = pageIndex();
+    animateIn(currentIndex < previousIndex ? "backward" : "forward");
+    sessionStorage.setItem(indexKey, String(currentIndex));
+  });
+};
+
 const initHeader = () => {
   const header = document.querySelector("[data-header]");
   if (!header) return;
@@ -1459,6 +1534,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initForms();
   renderAdminDashboard();
   renderStickyContactBar();
+  initPageTransitions();
   initNav();
   initHeader();
   optimizeImages();
