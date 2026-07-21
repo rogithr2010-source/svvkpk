@@ -1764,7 +1764,7 @@ h3 {
   color: var(--white);
 }
 
-/* Native cross-document transitions keep the header stable and animate page content. */
+/* Native cross-document transitions keep the header stable and book-flip the page content. */
 @view-transition {
   navigation: auto;
 }
@@ -1773,65 +1773,93 @@ main {
   view-transition-name: page-content;
 }
 
+::view-transition-group(page-content) {
+  perspective: 2400px;
+}
+
 ::view-transition-old(page-content) {
-  animation: page-slide-out 280ms cubic-bezier(0.4, 0, 1, 1) both;
+  transform-origin: left center;
+  animation: book-page-out 340ms cubic-bezier(0.4, 0, 0.7, 1) both;
 }
 
 ::view-transition-new(page-content) {
-  animation: page-slide-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: right center;
+  animation: book-page-in 380ms cubic-bezier(0.2, 0.9, 0.3, 1) 160ms both;
+}
+
+body {
+  perspective: 2400px;
 }
 
 main.page-transition-out-forward {
-  animation: page-slide-out 280ms cubic-bezier(0.4, 0, 1, 1) both;
+  transform-origin: left center;
+  animation: book-page-out 340ms cubic-bezier(0.4, 0, 0.7, 1) both;
 }
 
 main.page-transition-out-backward {
-  animation: page-slide-out-backward 280ms cubic-bezier(0.4, 0, 1, 1) both;
+  transform-origin: right center;
+  animation: book-page-out-backward 340ms cubic-bezier(0.4, 0, 0.7, 1) both;
 }
 
 main.page-transition-in-forward {
-  animation: page-slide-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: right center;
+  animation: book-page-in 380ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
 
 main.page-transition-in-backward {
-  animation: page-slide-in-backward 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: left center;
+  animation: book-page-in-backward 380ms cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
 
-@keyframes page-slide-out {
-  to {
-    opacity: 0.72;
-    transform: translateX(-28px);
-  }
-}
-
-@keyframes page-slide-in {
-  from {
-    opacity: 0.72;
-    transform: translateX(28px);
-  }
-
-  to {
+@keyframes book-page-out {
+  0% {
     opacity: 1;
-    transform: translateX(0);
+    transform: rotateY(0deg);
+    filter: brightness(1);
+  }
+  100% {
+    opacity: 0.15;
+    transform: rotateY(-110deg);
+    filter: brightness(0.5);
   }
 }
 
-@keyframes page-slide-out-backward {
-  to {
-    opacity: 0.72;
-    transform: translateX(28px);
+@keyframes book-page-in {
+  0% {
+    opacity: 0.2;
+    transform: rotateY(100deg);
+    filter: brightness(0.5);
   }
-}
-
-@keyframes page-slide-in-backward {
-  from {
-    opacity: 0.72;
-    transform: translateX(-28px);
-  }
-
-  to {
+  100% {
     opacity: 1;
-    transform: translateX(0);
+    transform: rotateY(0deg);
+    filter: brightness(1);
+  }
+}
+
+@keyframes book-page-out-backward {
+  0% {
+    opacity: 1;
+    transform: rotateY(0deg);
+    filter: brightness(1);
+  }
+  100% {
+    opacity: 0.15;
+    transform: rotateY(110deg);
+    filter: brightness(0.5);
+  }
+}
+
+@keyframes book-page-in-backward {
+  0% {
+    opacity: 0.2;
+    transform: rotateY(-100deg);
+    filter: brightness(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg);
+    filter: brightness(1);
   }
 }
 
@@ -2066,12 +2094,52 @@ main.page-transition-in-backward {
   overflow: hidden;
   border-radius: var(--radius);
   background: var(--paper);
+  perspective: 1800px;
+}
+
+.lightbox-page {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  transform-style: preserve-3d;
 }
 
 .lightbox img {
   width: 100%;
   max-height: 72vh;
   object-fit: contain;
+}
+
+.lightbox-page.turning-next {
+  animation: page-turn-next 0.55s ease-in-out;
+  transform-origin: left center;
+}
+
+.lightbox-page.turning-prev {
+  animation: page-turn-prev 0.55s ease-in-out;
+  transform-origin: right center;
+}
+
+@keyframes page-turn-next {
+  0% { transform: rotateY(0deg); filter: brightness(1); }
+  48% { transform: rotateY(-98deg); filter: brightness(0.45); }
+  52% { transform: rotateY(-98deg); filter: brightness(0.45); }
+  100% { transform: rotateY(0deg); filter: brightness(1); }
+}
+
+@keyframes page-turn-prev {
+  0% { transform: rotateY(0deg); filter: brightness(1); }
+  48% { transform: rotateY(98deg); filter: brightness(0.45); }
+  52% { transform: rotateY(98deg); filter: brightness(0.45); }
+  100% { transform: rotateY(0deg); filter: brightness(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox-page.turning-next,
+  .lightbox-page.turning-prev {
+    animation: none;
+  }
 }
 
 .lightbox-nav {

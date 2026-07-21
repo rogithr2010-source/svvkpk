@@ -7,7 +7,7 @@ window.svvNewsItems = [
     category: "Admissions"
   },
   {
-    title: "Class 10 SSLC Toppers Published",
+    title: "Class 10 Matriculation Toppers Published",
     date: "2026-07-04",
     description: "Class 10 topper photos, marks, and results at a glance are available on the achievements page.",
     image: "",

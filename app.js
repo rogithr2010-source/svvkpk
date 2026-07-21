@@ -59,7 +59,7 @@ const defaultHomeFeatures = [
   },
   {
     title: "Academics",
-    copy: "Matriculation learning with SSLC readiness.",
+    copy: "Matriculation learning with strong board-exam readiness.",
     href: "about.html",
     label: "View Academics",
     image: "images/announcements/reading-day-2026.png",
@@ -133,7 +133,7 @@ const aboutTabs = JSON.parse(JSON.stringify(defaultAboutTabs));
 const academics = [
   { title: "Classes", copy: "KG, primary, middle, high school, and higher-secondary class information." },
   { title: "Curriculum", copy: "Subject lists, assessment pattern, homework rhythm, and term planning." },
-  { title: "Matriculation", copy: "Matriculation sections, SSLC preparation, and eligibility notes." },
+  { title: "Matriculation", copy: "Matriculation sections, board-exam preparation, and eligibility notes." },
   { title: "Student Support", copy: "Revision routines, parent-facing academic updates, and subject guidance." }
 ];
 
@@ -407,8 +407,8 @@ const mergeAdminData = (saved = {}) => {
           title:
             item.title === "Admissions open for new enquiries"
               ? "Admissions Open For New Enquiries"
-              : item.title === "Class 10 SSLC toppers published"
-              ? "Class 10 SSLC Toppers Published"
+              : item.title === "Class 10 SSLC toppers published" || item.title === "Class 10 Matriculation toppers published"
+              ? "Class 10 Matriculation Toppers Published"
               : item.title === "School events and activities"
               ? "School Events And Activities"
               : item.title
@@ -1061,10 +1061,29 @@ const openLightbox = (index = 0) => {
   dialog.showModal();
 };
 
+let lightboxTurning = false;
+
 const stepLightbox = (direction) => {
-  if (!currentLightboxItems.length) return;
+  if (!currentLightboxItems.length || lightboxTurning) return;
+  const dialog = document.querySelector("[data-lightbox]");
+  const page = dialog?.querySelector("[data-lightbox-page]");
   currentLightboxIndex = (currentLightboxIndex + direction + currentLightboxItems.length) % currentLightboxItems.length;
-  updateLightbox();
+
+  if (!page) {
+    updateLightbox();
+    return;
+  }
+
+  lightboxTurning = true;
+  const turnClass = direction > 0 ? "turning-next" : "turning-prev";
+  page.classList.remove("turning-next", "turning-prev");
+  void page.offsetWidth;
+  page.classList.add(turnClass);
+  window.setTimeout(updateLightbox, 275);
+  window.setTimeout(() => {
+    page.classList.remove(turnClass);
+    lightboxTurning = false;
+  }, 550);
 };
 
 const initLightbox = () => {
@@ -1463,7 +1482,7 @@ const initPageTransitions = () => {
     main.classList.remove(...transitionClasses);
     void main.offsetWidth;
     main.classList.add(`page-transition-in-${direction}`);
-    window.setTimeout(() => main.classList.remove(`page-transition-in-${direction}`), 340);
+    window.setTimeout(() => main.classList.remove(`page-transition-in-${direction}`), 380);
   };
 
   const pendingDirection = sessionStorage.getItem(directionKey);
@@ -1493,7 +1512,7 @@ const initPageTransitions = () => {
     sessionStorage.setItem(directionKey, direction);
     sessionStorage.setItem(indexKey, String(pageIndex()));
     main.classList.add(`page-transition-out-${direction}`);
-    window.setTimeout(() => window.location.assign(url.href), 280);
+    window.setTimeout(() => window.location.assign(url.href), 340);
   });
 
   window.addEventListener("pageshow", (event) => {
