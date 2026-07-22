@@ -1476,7 +1476,7 @@ const initPageTransitions = () => {
     main.classList.remove(...transitionClasses);
     void main.offsetWidth;
     main.classList.add(`page-transition-in-${direction}`);
-    window.setTimeout(() => main.classList.remove(`page-transition-in-${direction}`), 380);
+    window.setTimeout(() => main.classList.remove(`page-transition-in-${direction}`), 240);
   };
 
   const pendingDirection = sessionStorage.getItem(directionKey);
@@ -1506,7 +1506,7 @@ const initPageTransitions = () => {
     sessionStorage.setItem(directionKey, direction);
     sessionStorage.setItem(indexKey, String(pageIndex()));
     main.classList.add(`page-transition-out-${direction}`);
-    window.setTimeout(() => window.location.assign(url.href), 340);
+    window.setTimeout(() => window.location.assign(url.href), 190);
   });
 
   window.addEventListener("pageshow", (event) => {
