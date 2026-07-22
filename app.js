@@ -1461,12 +1461,6 @@ const initPageTransitions = () => {
   const main = document.querySelector("main");
   if (!main || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  const supportsNativeTransitions =
-    typeof CSS !== "undefined" &&
-    CSS.supports("view-transition-name: page-content") &&
-    "startViewTransition" in document;
-  if (supportsNativeTransitions) return;
-
   const directionKey = "svv-page-transition-direction";
   const indexKey = "svv-page-transition-index";
   const files = navItems.map((item) => item.file);
